@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Hello } from './components/HelloWorld/HelloWorld';
+import { News } from './components/News/News';
 
 const webparts: NodeListOf<Element> = document.getElementsByClassName('webpart-script-example');
 for (let i: number = 0; i < webparts.length; i++) {
@@ -8,7 +8,7 @@ for (let i: number = 0; i < webparts.length; i++) {
     const description: string = webparts[i].getAttribute('data-description').toString();
 
     ReactDOM.render(
-        <Hello description={description} />,
+        <News description={description} siteUrl={"http://sp13dev:81/sites/zerhusen/SitePages/react-app.aspx"}/>,
         webparts[i]
     );
 }
