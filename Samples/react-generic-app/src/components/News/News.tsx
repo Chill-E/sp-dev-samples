@@ -3,24 +3,33 @@ import styles from './News.module.scss';
 import { css } from 'office-ui-fabric-react';
 import { INewsProps } from './INewsProps';
 import { INewsState } from './INewsState';
+require('sp-init');
+require('microsoft-ajax');
+require('sp-runtime');
+require('sharepoint');
 
 export class News extends React.Component<INewsProps, INewsState> {
   constructor(props?: INewsProps, context?: any) {
     super();
     this.state = {
       listTitles: [],
+      newsList:[],
       loadingLists: false,
       error: null
     };
   }
 
   componentDidMount() {
-    this.getNewsList();
+    this.getNewsListRest();
+    this.getNewsListCsom();
   }
 
   public render(): React.ReactElement<INewsProps> {
     const titles: JSX.Element[] = this.state.listTitles.map((item: string, key: number, listTitles: string[]): JSX.Element => {
       return <li key={key}><a ref="#">{item["ContentTypeId"]}</a> {item["Title"]}</li>;
+    });
+    const news: JSX.Element[] = this.state.newsList.map((value: string, key: number, listTitles: string[]): JSX.Element => {
+      return <li key={key}>value</li>;
     });
     return (
       <div className={styles.helloWorld}>
@@ -46,6 +55,11 @@ export class News extends React.Component<INewsProps, INewsState> {
                     {titles}
                   </ul>}
               </div>
+              <div>
+                <ul>
+                  {news}
+                </ul>
+                </div>
               <a className={css('ms-Button', styles.button)} href='https://dev.office.com/sharepoint'>
                 <span className='ms-Button-label'>Learn more</span>
               </a>
@@ -56,7 +70,7 @@ export class News extends React.Component<INewsProps, INewsState> {
     );
   }
 
-  private getNewsList() {
+  private getNewsListRest() {
     var reactHandler = this;
     reactHandler.setState({
       loadingLists: true,
@@ -89,5 +103,38 @@ export class News extends React.Component<INewsProps, INewsState> {
       }
     };
     spRequest.send();
+  }
+
+  private getNewsListCsom(): void {
+    this.setState({
+      loadingLists: true,
+      listTitles: [],
+      error: null
+    });
+
+    const context: SP.ClientContext = new SP.ClientContext(this.props.siteUrl);
+    const lists: SP.ListCollection = context.get_web().get_lists();
+    context.load(lists, 'Include(Title)');
+    context.executeQueryAsync((sender: any, args: SP.ClientRequestSucceededEventArgs): void => {
+      const listEnumerator: IEnumerator<SP.List> = lists.getEnumerator();
+
+      const newsTitles: string[] = [];
+      while (listEnumerator.moveNext()) {
+        const list: SP.List = listEnumerator.get_current();
+        newsTitles.push(list.get_title());
+      }
+
+      this.setState((prevState: INewsState, props: INewsProps): INewsState => {
+        prevState.newsList = newsTitles;
+        prevState.loadingLists = false;
+        return prevState;
+      });
+    }, (sender: any, args: SP.ClientRequestFailedEventArgs): void => {
+      this.setState({
+        loadingLists: false,
+        newsList: [],
+        error: args.get_message()
+      });
+    });
   }
 }

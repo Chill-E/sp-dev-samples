@@ -9,47 +9,72 @@ let isProduction = process.argv.indexOf('--production') > -1;
 let packageJSON = require('./package.json');
 
 let webpackConfig = {
-  context: path.join(__dirname, 'lib/'),
+    context: path.join(__dirname, 'lib/'),
 
-  entry: {
-    [packageJSON.name]: './index.js'
-  },
+    entry: {
+        [packageJSON.name]: './index.js'
+    },
 
-  output: {
-    libraryTarget: 'umd',
-    path: path.join(__dirname, '/dist'),
-    filename: `[name]${ isProduction ? '.min' : '' }.js`
-  },
+    output: {
+        libraryTarget: 'umd',
+        path: path.join(__dirname, '/dist'),
+        filename: `[name]${ isProduction ? '.min' : '' }.js`
+    },
 
-  devtool: 'source-map',
+    devtool: 'source-map',
 
-  devServer: {
-    stats: 'none'
-  },
+    devServer: {
+        stats: 'none'
+    },
 
-  externals: {
-    "react": "React",
-    "react-dom": "ReactDOM"
-  },
+    externals: {
+        "react": "React",
+        "react-dom": "ReactDOM",
+        "sp-init": {
+            "path": "http://sp13dev:81/sites/zerhusen/_layouts/15/init.js",
+            "globalName": "$_global_init"
+        },
+        "microsoft-ajax": {
+            "path": "http://sp13dev:81/sites/zerhusen/_layouts/15/MicrosoftAjax.js",
+            "globalName": "Sys",
+            "globalDependencies": [
+                "sp-init"
+            ]
+        },
+        "sp-runtime": {
+            "path": "http://sp13dev:81/sites/zerhusen/_layouts/15/SP.Runtime.js",
+            "globalName": "SP",
+            "globalDependencies": [
+                "microsoft-ajax"
+            ]
+        },
+        "sharepoint": {
+            "path": "http://sp13dev:81/sites/zerhusen/_layouts/15/SP.js",
+            "globalName": "SP",
+            "globalDependencies": [
+                "sp-runtime"
+            ]
+        }
+    },
 
-  module: {
-    loaders: [
-      { test: /\.css$/, loader: "css-loader" }
+    module: {
+        loaders: [
+            { test: /\.css$/, loader: "css-loader" }
+        ]
+    },
+
+    plugins: [
+        //  new WebpackNotifierPlugin()
     ]
-  },
-
-  plugins: [
-     //  new WebpackNotifierPlugin()
-  ]
 };
 
 if (isProduction) {
-  webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
-    minimize: true,
-    compress: {
-      warnings: false
-    }
-  }));
+    webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
+        minimize: true,
+        compress: {
+            warnings: false
+        }
+    }));
 }
 
 module.exports = webpackConfig;
