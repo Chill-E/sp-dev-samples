@@ -10,11 +10,14 @@
   "license": "ISC",
   "dependencies": {
     "@microsoft/web-library-build": "^3.0.1",
+    "@types/webpack-env": "^1.13.2",
     "office-ui-fabric-react": "^5.14.0"
   },
   "devDependencies": {
+    "@types/microsoft-ajax": "0.0.33",
     "@types/react": "^15.0.22",
     "@types/react-dom": "^15.5.0",
+    "@types/sharepoint": "^2016.0.2",
     "css-loader": "^0.28.3",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",

@@ -28,8 +28,8 @@ export class News extends React.Component<INewsProps, INewsState> {
     const titles: JSX.Element[] = this.state.listTitles.map((item: string, key: number, listTitles: string[]): JSX.Element => {
       return <li key={key}><a ref="#">{item["ContentTypeId"]}</a> {item["Title"]}</li>;
     });
-    const news: JSX.Element[] = this.state.newsList.map((value: string, key: number, listTitles: string[]): JSX.Element => {
-      return <li key={key}>value</li>;
+    const news: JSX.Element[] = this.state.newsList.map((value: string, key: number, newsList: string[]): JSX.Element => {
+      return <li key={key}>{value}</li>;
     });
     return (
       <div className={styles.helloWorld}>

@@ -8,7 +8,7 @@ for (let i: number = 0; i < webparts.length; i++) {
     const description: string = webparts[i].getAttribute('data-description').toString();
 
     ReactDOM.render(
-        <News description={description} siteUrl={"http://sp13dev:81/sites/zerhusen/SitePages/react-app.aspx"}/>,
+        <News description={description} siteUrl={"http://sp13dev:81/sites/zerhusen"}/>,
         webparts[i]
     );
 }
