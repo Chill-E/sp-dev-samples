@@ -1,11 +1,15 @@
 /* tslint:disable */
 require('./News.module.css');
 const styles = {
-  helloWorld: 'helloWorld_8de869b3',
-  container: 'container_8de869b3',
-  row: 'row_8de869b3',
-  listItem: 'listItem_8de869b3',
-  button: 'button_8de869b3',
+  news: 'news_d252ae75',
+  container: 'container_d252ae75',
+  row: 'row_d252ae75',
+  header: 'header_d252ae75',
+  listItem: 'listItem_d252ae75',
+  button: 'button_d252ae75',
+  newsListItem: 'newsListItem_d252ae75',
+  newsItem: 'newsItem_d252ae75',
+  head: 'head_d252ae75',
 };
 
 export default styles;

@@ -1,21 +1,41 @@
-.helloWorld {
-  .container {
-    max-width: 700px;
-    margin: 0px auto;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
-  }
-
-  .row {
-    padding: 20px;
-  }
-
-  .listItem {
-    max-width: 715px;
-    margin: 5px auto 5px auto;
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
-  }
-
-  .button {
-    text-decoration: none;
-  }
+$green: rgb(19, 140, 60);
+$yellow: rgb(255, 220, 48);
+$grey: rgb(66, 66, 66);
+.news {
+    .container {
+        max-width: 700px;
+        margin: 0px auto;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+    }
+    .row {
+        padding: 20px;
+        background-color: white;
+    }
+    .header {
+        color: $green;
+    }
+    .listItem {
+        max-width: 715px;
+        margin: 5px auto 5px auto;
+        border: 1px solid $green;
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+    }
+    .button {
+        text-decoration: none;
+    }
+    .newsListItem {
+        color: $green;
+    }
+    .newsItem {
+        // border: 3px solid $green;
+        background-color: rgba(246, 180, 74, 0);
+        padding: 3px;
+        margin: 5px 0;
+        box-shadow: 0 4px 15px 0 rgba(19, 140, 60, 0.2), 0 10px 18px 0 rgba(19, 140, 60, 0.1);
+        .head {
+            color: $green;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    }
 }
