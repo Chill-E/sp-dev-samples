@@ -1,15 +1,15 @@
 /* tslint:disable */
 require('./News.module.css');
 const styles = {
-  news: 'news_d252ae75',
-  container: 'container_d252ae75',
-  row: 'row_d252ae75',
-  header: 'header_d252ae75',
-  listItem: 'listItem_d252ae75',
-  button: 'button_d252ae75',
-  newsListItem: 'newsListItem_d252ae75',
-  newsItem: 'newsItem_d252ae75',
-  head: 'head_d252ae75',
+  news: 'news_acbfba66',
+  container: 'container_acbfba66',
+  row: 'row_acbfba66',
+  header: 'header_acbfba66',
+  listItem: 'listItem_acbfba66',
+  button: 'button_acbfba66',
+  newsListItem: 'newsListItem_acbfba66',
+  newsItem: 'newsItem_acbfba66',
+  head: 'head_acbfba66',
 };
 
 export default styles;
