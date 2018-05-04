@@ -1,5 +1,6 @@
 import * as React from "react";
 import styles from "./Contact.module.scss";
+import { Fabric } from "office-ui-fabric-react/lib/Fabric";
 import { css } from "office-ui-fabric-react";
 import { IContactProps } from "./IContactProps";
 import { IContactState } from "./IContactState";
@@ -37,72 +38,100 @@ export class Contact extends React.Component<IContactProps, IContactState> {
     const titles: JSX.Element[] = this.state.listTitles.map(
       (item: string, key: number, listTitles: string[]): JSX.Element => {
         return (
-          <div className={styles.contactItem} key={key}>
-            <div className={styles.contactPhoto + " " + styles.noPrint}>
-              <img src={item["FileRef"]} />
-            </div>
-            <div>
-              <h1>{this.getName(item["File"]["Name"])}</h1>
-              <span className={styles.noPrint}>{item["Title"]}</span>
-              <span className={styles.noPrint}>{item["Abteilung"]}</span>
-            </div>
-            <div>
-              <div className="phone">T {item["Telefonnummer"]}</div>
-              <div className={styles.noPrint}>F {item["Faxnummer"]}</div>
-              <div className={styles.noPrint}>
-                M {item["Mobil_x0020_gschftl_x002e_"]}
+          <div className={css("ms-Grid-col ms-xxl4 ms-lg6")} key={key}>
+            <div className={css(styles.contactItem, styles.noPrint)}>
+              <div className={css("ms-xxl3", styles.contactPhoto)}>
+                <img src={item["FileRef"]} />
               </div>
-              <div className={styles.noPrint}>
-                <a href="mailto:{item['E_x002d_Mail']}">
-                  {item["E_x002d_Mail"]}
-                </a>
+              <div className="ms-Grid-col ms-xxl5">
+                <div>{this.getName(item["File"]["Name"])}</div>
+                <div>{item["Title"]}</div>
+                <div>{item["Abteilung"]}</div>
+              </div>
+              <div className="ms-Grid-col ms-xxl4">
+                <div className="phone">T {item["Telefonnummer"]}</div>
+                <div>F {item["Faxnummer"]}</div>
+                <div>M {item["Mobil_x0020_gschftl_x002e_"]}</div>
+                <div>
+                  <a href="mailto:{item['E_x002d_Mail']}">
+                    {item["E_x002d_Mail"]}
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         );
       }
     );
+    const printTitles: JSX.Element[] = this.state.listTitles.map(
+      (item: string, key: number, listTitles: string[]): JSX.Element => {
+        const print = item["Durchwahl"] !== null;
+        if (print) {
+          return (
+            <div className={css("ms-Grid-col ms-xxl4 ms-lg6")} key={key}>
+              <div className={styles.onlyPrint}>
+                <div>
+                  <span className={styles.number}>{item["Durchwahl"]}</span>
+                  <span className={styles.name}>
+                    {this.getName(item["File"]["Name"])}
+                  </span>
+                  <span className={styles.department}>{item["Abteilung"]}</span>
+                </div>
+              </div>
+            </div>
+          );
+        }
+      }
+    );
     return (
-      <div className={styles.contact}>
+      <div className={css("ms-Grid", styles.contact)}>
         <div className={styles.container}>
-          <div
-            className={css(
-              "ms-Grid-row ms-bgColor-teal ms-fontColor-white",
-              styles.row
-            )}
-          >
-            <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-              <h1 className={styles.header}>{this.props.description} </h1>
-              <header>
+          <div className={css("ms-Grid-row", styles.row)}>
+            <div className="ms-Grid-col ms-xxl12 ms-lg12">
+              <header className={styles.noPrint}>
+                {" "}
+                <h1 className={styles.header}>{this.props.description} </h1>
                 <input
+                  className={styles.searchBox}
                   type="text"
                   ref="filterInput"
-                  placeholder="Type to filter.."
+                  placeholder="Suche..."
                   onChange={this.filterUpdate}
                 />
-                <label>
-                  Is going:
-                  <input
-                    name="isGoing"
-                    type="checkbox"
-                    checked={this.state.checkbox}
-                    onChange={this.filterUpdate}
-                  />
-                </label>
+                <i
+                  className="ms-Icon ms-Icon--Print x-hidden-focus"
+                  aria-hidden="true"
+                />
               </header>
-              <div className="contact-list-container">
-                {this.state.loadingLists && <span>Loading lists...</span>}
-                {this.state.error && (
-                  <span>
-                    An error has occurred while loading contact:{" "}
-                    {this.state.error}
-                  </span>
-                )}
-                {this.state.error === null &&
-                  titles && (
+            </div>
+          </div>
+          <div className="ms-Grid-row">
+            <div>
+              {this.state.loadingLists && <span>Loading lists...</span>}
+              {this.state.error && (
+                <span>
+                  An error has occurred while loading contact:{" "}
+                  {this.state.error}
+                </span>
+              )}
+              {this.state.error === null &&
+                titles && (
+                  <div>
                     <div className={styles.contactListItem}>{titles}</div>
-                  )}
-              </div>
+                    <div className={styles.contactListItem}>
+                      <div className={css("ms-Grid-col ms-xxl4 ms-lg6")}>
+                        <div className={styles.onlyPrint}>
+                          <div>
+                            <span className={styles.number}>Nr.</span>
+                            <span className={styles.name}>Name</span>
+                            <span className={styles.department}>Abteilung</span>
+                          </div>
+                        </div>
+                      </div>
+                      {printTitles}
+                    </div>
+                  </div>
+                )}
             </div>
           </div>
         </div>
@@ -111,15 +140,12 @@ export class Contact extends React.Component<IContactProps, IContactState> {
   }
 
   filterUpdate(event) {
-    if (event.target.type === "checkbox") {
-      alert("Test");
-    }
+    var searchText = event.target.value.toLowerCase();
     var filteredItems = this.state.allItems;
     filteredItems = filteredItems.filter(function(item) {
       return (
-        item["File"]["Name"]
-          .toLowerCase()
-          .search(event.target.value.toLowerCase()) !== -1
+        item["File"]["Name"].toLowerCase().search(searchText) !== -1 ||
+        item["Abteilung"].toLowerCase().search(searchText) !== -1
       );
     });
     this.setState({ listTitles: filteredItems });
@@ -144,7 +170,7 @@ export class Contact extends React.Component<IContactProps, IContactState> {
       this.props.siteUrl +
       "/_api/web/lists/GetByTitle('" +
       this.props.listName +
-      "')/items?$select=File/Name,FileRef,Title,Abteilung,Telefonnummer,Faxnummer,Mobil_x0020_gschftl_x002e_,E_x002d_Mail&$expand=File&$top=1000";
+      "')/items?$select=File/Name,FileRef,Title,Abteilung,Telefonnummer,Faxnummer,Mobil_x0020_gschftl_x002e_,E_x002d_Mail,Durchwahl&$expand=File&$top=1000";
     spRequest.open("GET", listUrl, true);
     spRequest.setRequestHeader("Accept", "application/json;odata=verbose");
 

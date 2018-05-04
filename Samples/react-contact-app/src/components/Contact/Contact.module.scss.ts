@@ -1,17 +1,20 @@
 /* tslint:disable */
 require('./Contact.module.css');
 const styles = {
-  contact: 'contact_ae664753',
-  container: 'container_ae664753',
-  header: 'header_ae664753',
-  row: 'row_ae664753',
-  listItem: 'listItem_ae664753',
-  button: 'button_ae664753',
-  contactListItem: 'contactListItem_ae664753',
-  contactItem: 'contactItem_ae664753',
-  head: 'head_ae664753',
-  contactPhoto: 'contactPhoto_ae664753',
-  noPrint: 'noPrint_ae664753',
+  contact: 'contact_66ac46e9',
+  container: 'container_66ac46e9',
+  header: 'header_66ac46e9',
+  row: 'row_66ac46e9',
+  button: 'button_66ac46e9',
+  contactListItem: 'contactListItem_66ac46e9',
+  contactItem: 'contactItem_66ac46e9',
+  contactPhoto: 'contactPhoto_66ac46e9',
+  searchBox: 'searchBox_66ac46e9',
+  onlyPrint: 'onlyPrint_66ac46e9',
+  noPrint: 'noPrint_66ac46e9',
+  number: 'number_66ac46e9',
+  name: 'name_66ac46e9',
+  department: 'department_66ac46e9',
 };
 
 export default styles;
