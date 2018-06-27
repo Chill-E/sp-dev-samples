@@ -43,12 +43,11 @@ export class Contact extends React.Component<IContactProps, IContactState> {
               <div className={css("ms-xxl3", styles.contactPhoto)}>
                 <img src={item["FileRef"]} />
               </div>
-              <div className="ms-Grid-col ms-xxl5">
+              <div className="ms-Grid-col ms-xxl9">
                 <div>{this.getName(item["File"]["Name"])}</div>
                 <div>{item["Title"]}</div>
                 <div>{item["Abteilung"]}</div>
-              </div>
-              <div className="ms-Grid-col ms-xxl4">
+                <hr />
                 <div className="phone">T {item["Telefonnummer"]}</div>
                 <div>F {item["Faxnummer"]}</div>
                 <div>M {item["Mobil_x0020_gschftl_x002e_"]}</div>
@@ -68,7 +67,7 @@ export class Contact extends React.Component<IContactProps, IContactState> {
         const print = item["Durchwahl"] !== null;
         if (print) {
           return (
-            <div className={css("ms-Grid-col ms-xxl4 ms-lg6")} key={key}>
+            <div className={styles.printDiv} key={key}>
               <div className={styles.onlyPrint}>
                 <div>
                   <span className={styles.number}>{item["Durchwahl"]}</span>
@@ -99,7 +98,11 @@ export class Contact extends React.Component<IContactProps, IContactState> {
                   onChange={this.filterUpdate}
                 />
                 <i
-                  className="ms-Icon ms-Icon--Print x-hidden-focus"
+                  onClick={this.print}
+                  className={css(
+                    "ms-Icon ms-Icon--Print x-hidden-focus",
+                    styles.printIcon
+                  )}
                   aria-hidden="true"
                 />
               </header>
@@ -118,8 +121,8 @@ export class Contact extends React.Component<IContactProps, IContactState> {
                 titles && (
                   <div>
                     <div className={styles.contactListItem}>{titles}</div>
-                    <div className={styles.contactListItem}>
-                      <div className={css("ms-Grid-col ms-xxl4 ms-lg6")}>
+                    <div className={styles.contactListItemPrint}>
+                      {/* <div className={styles.printDiv}>
                         <div className={styles.onlyPrint}>
                           <div>
                             <span className={styles.number}>Nr.</span>
@@ -127,7 +130,7 @@ export class Contact extends React.Component<IContactProps, IContactState> {
                             <span className={styles.department}>Abteilung</span>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                       {printTitles}
                     </div>
                   </div>
@@ -144,11 +147,17 @@ export class Contact extends React.Component<IContactProps, IContactState> {
     var filteredItems = this.state.allItems;
     filteredItems = filteredItems.filter(function(item) {
       return (
-        item["File"]["Name"].toLowerCase().search(searchText) !== -1 ||
-        item["Abteilung"].toLowerCase().search(searchText) !== -1
+        item["File"]["Name"].toLowerCase().startsWith(searchText) ||
+        item["Abteilung"].toLowerCase().startsWith(searchText) ||
+        (item["Durchwahl"] !== null &&
+          item["Durchwahl"].toLowerCase().startsWith(searchText))
       );
     });
     this.setState({ listTitles: filteredItems });
+  }
+
+  print() {
+    window.print();
   }
 
   private getName(docName) {
@@ -177,9 +186,16 @@ export class Contact extends React.Component<IContactProps, IContactState> {
     spRequest.onreadystatechange = function() {
       if (spRequest.readyState === 4 && spRequest.status === 200) {
         var result = JSON.parse(spRequest.responseText);
+        var sortedResults = result.d.results.sort(function(a, b) {
+          return a.File.Name > b.File.Name
+            ? 1
+            : b.File.Name > a.File.Name
+              ? -1
+              : 0;
+        });
         reactHandler.setState({
-          listTitles: result.d.results,
-          allItems: result.d.results,
+          listTitles: sortedResults,
+          allItems: sortedResults,
           loadingLists: false
         });
       } else if (spRequest.readyState === 4 && spRequest.status !== 200) {

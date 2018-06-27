@@ -1,0 +1,16 @@
+<!-- Style -->
+<link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.6.0/css/fabric.min.css">
+ 
+<!-- Client Side Web Part -->
+<div class="webpart-contacts" data-description="Telefonliste" data-site-url="http://sp" data-list-name="Mitarbeiter"></div>
+ 
+<!-- Dependencies -->
+<script src="http://sp/SiteAssets/apps/react.js"></script>
+<script src="http://sp/SiteAssets/apps/react-dom.js"></script>
+<script src="http://sp/_layouts/15/init.js"></script>
+<script src="http://sp/_layouts/15/MicrosoftAjax.js"></script>
+<script src="http://sp/_layouts/15/SP.Runtime.js"></script>
+<script src="http://sp/_layouts/15/SP.js"></script>
+
+<!-- Main -->
+<script src="http://sp/SiteAssets/apps/contacts-app.js"></script>

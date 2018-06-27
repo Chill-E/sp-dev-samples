@@ -18,6 +18,9 @@ $grey: rgb(66, 66, 66);
   .contactListItem {
     color: $green;
   }
+  .contactListItemPrint {
+    width: 210mm;
+  }
   .contactItem {
     // display: grid;
     // grid-template-columns: 100px 250px 250px;
@@ -32,6 +35,9 @@ $grey: rgb(66, 66, 66);
       0 10px 18px 0 rgba(19, 140, 60, 0.1);
     img {
       width: 100%;
+      object-fit: contain;
+      object-position: center;
+      height: 100%;
     }
     .contactPhoto {
       float: left;
@@ -39,6 +45,10 @@ $grey: rgb(66, 66, 66);
   }
   .searchBox {
     width: 300px;
+    margin-right: 50px;
+  }
+  .printIcon {
+    font-size: 20px;
   }
 }
 
@@ -62,16 +72,27 @@ $grey: rgb(66, 66, 66);
         display: inline-block;
         padding: 0px 2px;
         color: black;
+        margin: 1px;
         &.number {
-          width: 22px;
+          width: 6mm;
         }
         &.name {
-          width: 200px;
+          width: 50mm;
         }
         &.department {
-          width: 200px;
+          width: 41mm;
         }
       }
+    }
+  }
+  .printDiv {
+    float: left;
+    width: 105mm;
+  }
+  :global {
+    #suiteBar,
+    #s4-titlerow {
+      display: none !important;
     }
   }
 }
