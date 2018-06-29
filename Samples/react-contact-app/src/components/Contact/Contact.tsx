@@ -48,7 +48,9 @@ export class Contact extends React.Component<IContactProps, IContactState> {
                 <div>{item["Title"]}</div>
                 <div>{item["Abteilung"]}</div>
                 <hr />
-                <div className="phone">T {item["Telefonnummer"]}</div>
+                <div className="phone">
+                  T {item["Telefonnummer"]}-{item["Durchwahl"]}
+                </div>
                 <div>F {item["Faxnummer"]}</div>
                 <div>M {item["Mobil_x0020_gschftl_x002e_"]}</div>
                 <div>
