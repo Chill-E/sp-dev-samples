@@ -1,15 +1,16 @@
 /* tslint:disable */
 require('./Birthday.module.css');
 const styles = {
-  birthday: 'birthday_f8468a60',
-  container: 'container_f8468a60',
-  header: 'header_f8468a60',
-  row: 'row_f8468a60',
-  listItem: 'listItem_f8468a60',
-  button: 'button_f8468a60',
-  birthdayListItem: 'birthdayListItem_f8468a60',
-  birthdayItem: 'birthdayItem_f8468a60',
-  head: 'head_f8468a60',
+  birthday: 'birthday_3a948a1e',
+  container: 'container_3a948a1e',
+  header: 'header_3a948a1e',
+  row: 'row_3a948a1e',
+  listItem: 'listItem_3a948a1e',
+  button: 'button_3a948a1e',
+  birthdayListItem: 'birthdayListItem_3a948a1e',
+  birthdayItem: 'birthdayItem_3a948a1e',
+  head: 'head_3a948a1e',
+  birthdayToday: 'birthdayToday_3a948a1e',
 };
 
 export default styles;

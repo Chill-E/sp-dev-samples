@@ -32,13 +32,26 @@ export class Birthday extends React.Component<IBirthdayProps, IBirthdayState> {
         var birthdayDate = new Date(
           parseInt(item["Anfangszeit"].substring(6, 19))
         ).format("dd.MM.");
-        return (
-          <div className={styles.birthdayItem} key={key}>
-            <p className={styles.head}>
-              {birthdayDate} - {item["Titel"]}
-            </p>
-          </div>
-        );
+        if (birthdayDate == new Date().format("dd.MM.")) {
+          return (
+            <div
+              className={styles.birthdayItem + " " + styles.birthdayToday}
+              key={key}
+            >
+              <p className={styles.head}>
+                {birthdayDate} - {item["Titel"]}
+              </p>
+            </div>
+          );
+        } else {
+          return (
+            <div className={styles.birthdayItem} key={key}>
+              <p className={styles.head}>
+                {birthdayDate} - {item["Titel"]}
+              </p>
+            </div>
+          );
+        }
       }
     );
     // const birthday: JSX.Element[] = this.state.birthdayList.map((value: string, key: number, birthdayList: string[]): JSX.Element => {
@@ -88,13 +101,20 @@ export class Birthday extends React.Component<IBirthdayProps, IBirthdayState> {
 
     var spRequest = new XMLHttpRequest();
     var currentMonth = new Date().getMonth() + 1;
+    var today = new Date();
+    var todayMinusFive = new Date();
+    todayMinusFive.setDate(today.getDate() - 5);
+    var todayPlusFive = new Date();
+    todayPlusFive.setDate(today.getDate() + 5);
     var listUrl =
       this.props.siteUrl +
       "/_vti_bin/listdata.svc/" +
       this.props.listName +
-      "?$filter=month(Anfangszeit) eq " +
-      currentMonth.toString() +
-      "&$orderby=day(Anfangszeit) asc";
+      "?$filter=((Anfangszeit ge datetime'" +
+      todayMinusFive.toISOString() +
+      "') and (Anfangszeit le datetime'" +
+      todayPlusFive.toISOString() +
+      "'))&$orderby=Anfangszeit asc";
     spRequest.open("GET", listUrl, true);
     spRequest.setRequestHeader("Accept", "application/json;odata=verbose");
 
