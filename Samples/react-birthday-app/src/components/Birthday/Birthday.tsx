@@ -27,27 +27,36 @@ export class Birthday extends React.Component<IBirthdayProps, IBirthdayState> {
   }
 
   public render(): React.ReactElement<IBirthdayProps> {
+    var today = new Date();
+    var todayMinusFive = new Date();
+    var todayPlusFive = new Date();
+    todayMinusFive.setDate(today.getDate() - 5);
+    todayPlusFive.setDate(today.getDate() + 5);
     const titles: JSX.Element[] = this.state.listTitles.map(
       (item: string, key: number, listTitles: string[]): JSX.Element => {
-        var birthdayDate = new Date(
+        var birthdayDateString = new Date(
           parseInt(item["Anfangszeit"].substring(6, 19))
-        ).format("dd.MM.");
-        if (birthdayDate == new Date().format("dd.MM.")) {
+        ).format(today.getFullYear() + "-MM-dd");
+        var birthdayDate = new Date(birthdayDateString);
+        if (birthdayDateString == new Date().format("yyyy-MM-dd")) {
           return (
             <div
               className={styles.birthdayItem + " " + styles.birthdayToday}
               key={key}
             >
               <p className={styles.head}>
-                {birthdayDate} - {item["Titel"]}
+                {birthdayDate.format("dd.MM")} - {item["Titel"]}
               </p>
             </div>
           );
-        } else {
+        } else if (
+          birthdayDate < todayPlusFive &&
+          birthdayDate > todayMinusFive
+        ) {
           return (
             <div className={styles.birthdayItem} key={key}>
               <p className={styles.head}>
-                {birthdayDate} - {item["Titel"]}
+                {birthdayDate.format("dd.MM")} - {item["Titel"]}
               </p>
             </div>
           );
@@ -100,21 +109,17 @@ export class Birthday extends React.Component<IBirthdayProps, IBirthdayState> {
     });
 
     var spRequest = new XMLHttpRequest();
-    var currentMonth = new Date().getMonth() + 1;
-    var today = new Date();
-    var todayMinusFive = new Date();
-    todayMinusFive.setDate(today.getDate() - 5);
-    var todayPlusFive = new Date();
-    todayPlusFive.setDate(today.getDate() + 5);
+    var lastMonth = new Date().getMonth();
+    var nextMonth = lastMonth + 2;
     var listUrl =
       this.props.siteUrl +
       "/_vti_bin/listdata.svc/" +
       this.props.listName +
-      "?$filter=((Anfangszeit ge datetime'" +
-      todayMinusFive.toISOString() +
-      "') and (Anfangszeit le datetime'" +
-      todayPlusFive.toISOString() +
-      "'))&$orderby=Anfangszeit asc";
+      "?$filter=((month(Anfangszeit) ge " +
+      lastMonth +
+      ") and (month(Anfangszeit) le " +
+      nextMonth +
+      "))&$orderby=month(Anfangszeit) asc,day(Anfangszeit) asc";
     spRequest.open("GET", listUrl, true);
     spRequest.setRequestHeader("Accept", "application/json;odata=verbose");
 
